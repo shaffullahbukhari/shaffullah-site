@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multilingual AI Receptionist for Immigration Law Firms | Shaffullah Bukhari</title>
+<meta name="description" content="An AI receptionist that answers your firm's calls in your clients' language, collects the case details and books the consultation. You get a written summary every time.">
+<meta property="og:title" content="Never miss a client call again.">
+<meta property="og:description" content="A multilingual AI receptionist for immigration law firms. Answers in your client's language, collects intake, books the consultation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shaffullah.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0F19'/%3E%3Ccircle cx='32' cy='32' r='8' fill='%232457F5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#0B0F19;--muted:#4B5563;--line:#E5E7EB;--soft:#F6F7F9;--accent:#2457F5;--tint:#EEF2FF;--tint-ink:#1E3FBF}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:'Space Grotesk',system-ui,sans-serif;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+a:focus-visible,summary:focus-visible{outline:3px solid #93C5FD;outline-offset:3px;border-radius:6px}
+
+/* nav */
+.nav{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding-top:24px;padding-bottom:24px}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.02em}
+.logo span{color:var(--accent)}
+.nav nav{display:flex;flex-wrap:wrap;gap:28px;align-items:center;font-size:15px;color:var(--muted)}
+.pill-dark{background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;font-weight:500}
+
+/* buttons */
+.btn{display:inline-block;padding:16px 28px;border-radius:999px;font-weight:600;font-size:16px;transition:transform .12s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-line{border:1px solid #D1D5DB;padding:15px 28px;font-weight:500}
+
+/* hero */
+.hero{max-width:920px;margin:0 auto;padding:64px 32px 48px;text-align:center}
+.badge{display:inline-block;background:var(--tint);color:var(--tint-ink);font-size:14px;font-weight:500;padding:7px 16px;border-radius:999px;margin-bottom:28px}
+h1{font-weight:700;font-size:clamp(40px,7.4vw,76px);line-height:1.02;letter-spacing:-0.035em;margin-bottom:24px}
+.hero p{margin:0 auto 36px;font-size:20px;color:var(--muted);max-width:640px}
+.actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+
+/* demo */
+.demo{max-width:900px;margin:0 auto;padding:24px 32px 88px}
+.frame{background:var(--ink);border-radius:20px;padding:20px;box-shadow:0 24px 60px -24px rgba(11,15,25,.35)}
+.frame .video{border-radius:12px;overflow:hidden;background:#151B2B}
+.caption{margin:28px 0 0;text-align:center;color:var(--muted);font-size:16px}
+
+/* sections */
+.band{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec{padding-top:88px;padding-bottom:88px}
+h2.t{font-weight:700;font-size:clamp(30px,4.4vw,44px);letter-spacing:-0.025em;line-height:1.1}
+.grid{display:flex;flex-wrap:wrap;gap:20px}
+.box{flex:1 1 440px;min-width:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px}
+.box.on{border:2px solid var(--accent);padding:31px}
+.lab{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6B7280;margin-bottom:14px}
+.on .lab{color:var(--accent)}
+.box ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;color:#374151}
+.on ul{color:var(--ink)}
+.feat{flex:1 1 440px;min-width:0;border:1px solid var(--line);border-radius:16px;padding:32px}
+.feat h3{font-weight:600;font-size:24px;letter-spacing:-0.01em;margin-bottom:10px}
+.feat p{margin:0 0 20px;color:var(--muted)}
+.feat p:last-child{margin-bottom:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#F3F4F6;border-radius:999px;padding:6px 14px;font-size:14px}
+.slot{border:1px solid #D1D5DB;border-radius:8px;padding:8px 14px;font-size:14px}
+.slot.pick{border-color:var(--accent);background:var(--tint);color:var(--tint-ink);font-weight:500}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bars div{height:10px;background:var(--line);border-radius:4px}
+.steps{display:flex;flex-wrap:wrap;gap:40px}
+.step{flex:1 1 260px;min-width:0;border-top:3px solid var(--ink);padding-top:20px}
+.step.last{border-color:var(--accent)}
+.step h3{font-weight:600;font-size:18px;margin-bottom:8px}
+.step p{margin:0;color:var(--muted)}
+
+
+/* calculator */
+.calc{display:grid;gap:20px;margin-top:36px}
+.cbox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px}
+.ctotals{position:sticky;top:0;z-index:20;padding:14px 18px;box-shadow:0 10px 16px -12px rgba(11,15,25,.3)}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tl{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6B7280}
+.tn{display:inline-block;max-width:100%;margin-top:2px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(26px,7vw,34px);line-height:1.1;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.loss{color:#B42318}.gain{color:#157347}
+.tsub{display:none;margin:6px 0 0;font-size:14px;color:var(--muted)}
+.cbox h3{font-weight:600;font-size:20px;letter-spacing:-0.01em;margin-bottom:4px}
+.chint{margin:4px 0 0;font-size:14px;color:#6B7280}
+.cfield{padding:16px 0;border-top:1px solid var(--line)}
+.cfield:first-of-type{border-top:0}
+.ctop{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ctop label{font-weight:500;font-size:16px;min-width:0}
+.numbox{flex:none;display:inline-flex;align-items:center;gap:2px;padding:0 10px;border:1px solid #D1D5DB;border-radius:8px;background:#fff}
+.numbox:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.numbox input{width:4.6rem;padding:7px 0;border:0;background:transparent;color:var(--ink);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;text-align:right;font-variant-numeric:tabular-nums;outline:none;-moz-appearance:textfield;appearance:textfield}
+.numbox input::-webkit-outer-spin-button,.numbox input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.affix{font-family:'Space Grotesk',sans-serif;font-weight:600;color:#6B7280}
+.crange{display:block;width:100%;margin:12px 0 0;accent-color:var(--accent)}
+.ledger{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:16px}
+.lrow{display:grid;grid-template-columns:auto 1fr auto;column-gap:8px;align-items:end}
+.dots{align-self:end;height:0;min-width:12px;margin-bottom:.4em;border-bottom:1px dotted #9CA3AF}
+.lval{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;line-height:1.2;font-variant-numeric:tabular-nums}
+.lbar{grid-column:1/-1;height:6px;margin-top:6px;background:#E5E7EB;border-radius:999px;overflow:hidden}
+.lbar i{display:block;height:100%;width:0;background:var(--accent);border-radius:999px}
+.lbar i.base{background:#9CA3AF}.lbar i.out{background:#B42318}
+.lmath{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:12px}
+.lmath .lval{font-size:24px}
+.cactions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:22px}
+.btn-sm{padding:11px 20px;font-size:15px}
+.ghostbtn{border:1px solid #D1D5DB;background:#fff;border-radius:999px;padding:10px 20px;font:500 15px 'Inter',sans-serif;color:var(--ink);cursor:pointer}
+.cstatus{font-size:14px;color:#6B7280}
+.cfine{margin:20px 0 0;font-size:13px;color:#6B7280;max-width:70ch}
+@media (min-width:900px){
+  .calc{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);grid-template-areas:"inputs totals" "inputs funnel";grid-template-rows:auto 1fr;gap:24px;align-items:start}
+  .ctotals{position:static;grid-area:totals;padding:24px;box-shadow:none}
+  .cinputs{grid-area:inputs}.cfunnel{grid-area:funnel}
+  .tn{font-size:clamp(30px,3.2vw,42px)}.tsub{display:block}
+}
+.aeo{max-width:760px;margin:0 auto 64px;padding:0 32px}
+.aeo-in{border:1px dashed #D1D5DB;border-radius:16px;padding:24px 28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.aeo-in h3{font-weight:600;font-size:18px;margin-bottom:4px}
+.aeo-in p{margin:0;font-size:15px;color:var(--muted);max-width:480px}
+.aeo-in a{font-weight:600;font-size:15px;color:var(--tint-ink);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:640px){.aeo{padding:0 20px}.cbox{padding:20px}}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto;padding:88px 32px}
+.faq h2{font-weight:700;font-size:36px;letter-spacing:-0.02em;margin-bottom:28px}
+details{border-top:1px solid var(--line);padding:20px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;font-weight:600;font-size:18px;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;font-size:24px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:12px 0 0;color:var(--muted)}
+
+/* cta */
+.cta-wrap{padding-bottom:88px}
+.cta{background:var(--ink);color:#fff;border-radius:24px;padding:72px 32px;text-align:center}
+.cta h2{font-weight:700;font-size:clamp(32px,5vw,48px);letter-spacing:-0.03em;line-height:1.05;margin-bottom:16px}
+.cta p{margin:0 auto 32px;color:#9CA3AF;max-width:520px}
+.cta .btn{padding:16px 32px}
+.cta .who{margin:28px auto 0;font-size:15px;color:#9CA3AF}
+.cta .who a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+
+footer{padding-bottom:40px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:14px;color:#6B7280}
+footer .links{display:flex;gap:20px}
+footer a:hover{color:var(--ink)}
+
+@media (max-width:640px){
+  .wrap,.hero,.demo,.faq{padding-left:20px;padding-right:20px}
+  .frame{padding:10px;border-radius:14px}
+  .sec{padding-top:64px;padding-bottom:64px}
+  .box,.feat{padding:24px}.box.on{padding:23px}
+  .nav nav{gap:18px}
+  .cta{padding:56px 20px;border-radius:18px}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap nav">
+  <a class="logo" href="#top">shaffullah<span>.</span></a>
+  <nav aria-label="Main">
+    <a href="#demo">Demo</a>
+    <a href="#features">What it does</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#how">How it works</a>
+    <a class="pill-dark" href="https://calendly.com/bukharishaffullah/30min" target="_blank" rel="noopener">Book a call</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <span class="badge">Multilingual AI receptionist for immigration law firms</span>
+  <h1>Never miss a client call again.</h1>
+  <p>It answers in your client's language, collects the case details, and books the consultation. You get a written summary every time.</p>
+  <div class="actions">
+    <a class="btn btn-accent" href="#demo">Hear it answer a call</a>
+    <a class="btn btn-line" href="https://calendly.com/bukharishaffullah/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
+  </div>
+</section>
+
+<section class="demo" id="demo" aria-label="Demo video">
+  <div class="frame">
+    <div class="video">
+      <div style="position: relative; padding-bottom: 75%; height: 0;"><iframe src="https://www.loom.com/embed/ceb4545b58cf4a27a87f70f1fd26960a" title="Demo of the AI receptionist answering a call" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+    </div>
+  </div>
+  <p class="caption">A sample call with a fictional firm. Yours would use your firm's name, greeting and languages.</p>
+</section>
+
+<div class="band">
+  <section class="wrap sec">
+    <h2 class="t" style="text-align:center;margin-bottom:40px">A typical 7:12 pm call</h2>
+    <div class="grid">
+      <div class="box">
+        <div class="lab">Without it</div>
+        <ul>
+          <li>The line rings out to voicemail</li>
+          <li>The caller tries the next firm</li>
+          <li>You find out in the morning, if at all</li>
+        </ul>
+      </div>
+      <div class="box on">
+        <div class="lab">With it</div>
+        <ul>
+          <li>Answered in the caller's language</li>
+          <li>Details captured and a consultation booked</li>
+          <li>A written summary waiting for your team</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="wrap sec" id="calculator">
+  <h2 class="t">What does your phone miss in a year?</h2>
+  <p style="margin:12px 0 0;color:var(--muted);max-width:62ch">Enter your own call volume and fees. This counts the consultations and signed matters that go to voicemail, then shows what a 24/7 intake agent could win back.</p>
+  <div class="calc">
+    <section class="cbox ctotals" aria-label="Annual totals" aria-live="polite">
+      <div class="tgrid">
+        <div><span class="tl">Lost each year</span><output id="lostYear" class="tn loss">$0</output><p class="tsub" id="lostSub"></p></div>
+        <div><span class="tl">Recoverable</span><output id="recYear" class="tn gain">$0</output><p class="tsub" id="recSub"></p></div>
+      </div>
+    </section>
+    <form class="cbox cinputs" id="cinputs" novalidate>
+      <h3>Your numbers</h3>
+      <p class="chint">The figures shown are examples. Replace each one with your own.</p>
+      <div id="cfields"></div>
+    </form>
+    <section class="cbox cfunnel" aria-label="Where the calls go">
+      <h3>Where the calls go</h3>
+      <p class="chint">Per year, from the numbers you entered.</p>
+      <ol class="ledger">
+        <li class="lrow"><span>Inbound calls</span><span class="dots"></span><b class="lval" id="v-calls"></b><span class="lbar"><i class="base" id="b-calls"></i></span></li>
+        <li class="lrow"><span>Go unanswered</span><span class="dots"></span><b class="lval" id="v-missed"></b><span class="lbar"><i id="b-missed"></i></span></li>
+        <li class="lrow"><span>Are real prospects</span><span class="dots"></span><b class="lval" id="v-pros"></b><span class="lbar"><i id="b-pros"></i></span></li>
+        <li class="lrow"><span>Would book a consultation</span><span class="dots"></span><b class="lval" id="v-cons"></b><span class="lbar"><i id="b-cons"></i></span></li>
+        <li class="lrow"><span>Would become signed matters</span><span class="dots"></span><b class="lval" id="v-won"></b><span class="lbar"><i class="out" id="b-won"></i></span></li>
+      </ol>
+      <div class="lmath">
+        <div class="lrow"><span>Signed matters &times; <span id="m-fee"></span> average fee</span><span class="dots"></span><b class="lval loss" id="m-lost"></b></div>
+        <div class="lrow"><span>Lost &times; <span id="m-cap"></span> answered by the agent</span><span class="dots"></span><b class="lval gain" id="m-rec"></b></div>
+      </div>
+      <div class="cactions">
+        <a class="btn btn-accent btn-sm" href="https://calendly.com/bukharishaffullah/30min" target="_blank" rel="noopener">Book a call to check your real numbers</a>
+        <button class="ghostbtn" type="button" id="creset">Reset to examples</button>
+        <span class="cstatus" id="cstatus" role="status"></span>
+      </div>
+    </section>
+  </div>
+  <p class="cfine">Example figures only. Annual totals assume 50 working weeks. Each rate applies to the step before it, so changing one number moves everything below it. This is an estimate from the figures you enter, not a forecast.</p>
+</section>
+
+<section class="wrap sec" id="features">
+  <h2 class="t" style="margin-bottom:40px">Four things it does, and nothing more.</h2>
+  <div class="grid">
+    <div class="feat">
+      <h3>Speaks your clients' languages</h3>
+      <p>English, Spanish, Arabic, Portuguese, French and Haitian Creole, and more on request.</p>
+      <div class="chips"><span class="chip">Español</span><span class="chip">العربية</span><span class="chip">Português</span><span class="chip">Français</span><span class="chip">Kreyòl</span></div>
+    </div>
+    <div class="feat">
+      <h3>Writes the summary for you</h3>
+      <p>Caller, matter, urgency and next step, sent to your inbox or case system.</p>
+      <div class="bars" aria-hidden="true"><div style="width:92%"></div><div style="width:78%"></div><div style="width:60%"></div></div>
+    </div>
+    <div class="feat">
+      <h3>Books the consultation</h3>
+      <p>Offers open slots from your calendar and confirms with the caller.</p>
+      <div class="chips" aria-hidden="true"><span class="slot">Thu 10:00</span><span class="slot pick">Thu 11:30</span><span class="slot">Fri 9:00</span></div>
+    </div>
+    <div class="feat">
+      <h3>Hands urgent calls to a person</h3>
+      <p>Detention, court deadlines and emergencies are flagged and forwarded to your on-call contact. It never gives legal advice.</p>
+    </div>
+  </div>
+</section>
+
+<div class="band" id="how">
+  <section class="wrap sec">
+    <h2 class="t" style="margin-bottom:48px">Live in about a week.</h2>
+    <div class="steps">
+      <div class="step"><h3>1. We configure it</h3><p>Your firm's name, greeting, languages and intake questions.</p></div>
+      <div class="step"><h3>2. You test it</h3><p>Call it yourself, in any language, and adjust until it sounds right.</p></div>
+      <div class="step last"><h3>3. It goes live</h3><p>After-hours calls are forwarded to it. We review the first 30 days together.</p></div>
+    </div>
+  </section>
+</div>
+
+<section class="faq">
+  <h2>Questions</h2>
+  <details><summary>Do callers know it is an AI?</summary><p>Yes. It says so at the start of every call and can transfer to a person on request.</p></details>
+  <details><summary>What does it cost?</summary><p>A one-time setup, then a flat monthly fee. The first 30 days are a pilot, so you can stop anytime. I share exact pricing on the call.</p></details>
+  <details><summary>Is client information protected?</summary><p>Confidentiality is the first thing I walk through with every firm: where call data is stored, who can access it, and how long it is kept. I answer this in detail on the call, before you commit to anything.</p></details>
+</section>
+
+<aside class="aeo" aria-label="Another service">
+  <div class="aeo-in">
+    <div>
+      <h3>Also: get found when people ask AI</h3>
+      <p>Prospective clients now ask ChatGPT and Google's AI answers who to call. I can audit how your firm shows up there and what to fix.</p>
+    </div>
+    <a href="https://calendly.com/bukharishaffullah/30min" target="_blank" rel="noopener">Ask about an AI-search audit</a>
+  </div>
+</aside>
+
+<section class="wrap cta-wrap" id="book">
+  <div class="cta">
+    <h2>Hear it answer for your firm.</h2>
+    <p>Book a call and I will build a demo with your firm's name and languages before we talk.</p>
+    <a class="btn btn-accent" href="https://calendly.com/bukharishaffullah/30min" target="_blank" rel="noopener">Book a 30-minute call</a>
+    <p class="who">I'm Shaffullah. I build AI receptionists for law firms. <a href="https://www.linkedin.com/in/shaffullah-bukhari/" target="_blank" rel="noopener">Connect on LinkedIn</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <span>© Shaffullah Bukhari</span>
+  <span class="links">
+    <a href="https://www.linkedin.com/in/shaffullah-bukhari/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:hello@shaffullah.com">hello@shaffullah.com</a>
+  </span>
+</footer>
+
+<script>
+(function(){
+  var WEEKS=50;
+  var FIELDS=[
+    {k:'calls',label:'Inbound calls per week',min:10,max:200,step:5,val:60,unit:'',hint:'Every call to your main line, answered or not.'},
+    {k:'missed',label:'Calls that go unanswered',min:5,max:60,step:1,val:30,unit:'%',hint:'After hours, over lunch, during consultations, or when the line is busy.'},
+    {k:'prospect',label:'Unanswered callers who are real prospects',min:10,max:90,step:5,val:50,unit:'%',hint:'Leave out vendors, wrong numbers, and existing clients.'},
+    {k:'book',label:'Prospects who book a consultation when someone answers',min:10,max:80,step:5,val:40,unit:'%',hint:'Your booking rate on calls you do pick up.'},
+    {k:'sign',label:'Consultations that become signed matters',min:10,max:70,step:5,val:35,unit:'%',hint:'Your own consultation-to-retainer rate.'},
+    {k:'fee',label:'Average fee per matter',min:500,max:12000,step:250,val:4500,unit:'$',hint:'Blend family petitions, work visas, asylum, and removal defense.'},
+    {k:'capture',label:'Missed calls the voice agent answers',min:20,max:100,step:5,val:70,unit:'%',hint:'Share of missed calls where the agent logs a name, case type, and callback number.'}
+  ];
+  var S={},D={};
+  FIELDS.forEach(function(f){D[f.k]=f.val;S[f.k]=f.val;});
+  function $(id){return document.getElementById(id);}
+  function clamp(v,f){return Math.min(f.max,Math.max(f.min,v));}
+  function money(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'M':'$'+Math.round(n).toLocaleString('en-US');}
+  function count(n){return n>=10?Math.round(n).toLocaleString('en-US'):String(Math.round(n*10)/10);}
+  function calc(){
+    var yc=S.calls*WEEKS,m=yc*S.missed/100,p=m*S.prospect/100,c=p*S.book/100,w=c*S.sign/100,l=w*S.fee;
+    return {calls:yc,missed:m,pros:p,cons:c,won:w,lost:l,rec:l*S.capture/100};
+  }
+  var timer=null;
+  function flash(msg){$('cstatus').textContent=msg;clearTimeout(timer);timer=setTimeout(function(){$('cstatus').textContent='';},3500);}
+  function render(){
+    var c=calc();
+    $('lostYear').textContent=money(c.lost);
+    $('recYear').textContent=money(c.rec);
+    $('lostSub').textContent=count(c.won)+' signed matters never start';
+    $('recSub').textContent='about '+count(c.won*S.capture/100)+' matters won back';
+    ['calls','missed','pros','cons','won'].forEach(function(key){
+      $('v-'+key).textContent=count(c[key]);
+      var w=key==='calls'?100:(c.calls>0?Math.max(1.5,c[key]/c.calls*100):0);
+      $('b-'+key).style.width=w+'%';
+    });
+    $('m-fee').textContent=money(S.fee);
+    $('m-cap').textContent=S.capture+'%';
+    $('m-lost').textContent=money(c.lost);
+    $('m-rec').textContent=money(c.rec);
+  }
+  var host=$('cfields');
+  FIELDS.forEach(function(f){
+    var row=document.createElement('div');row.className='cfield';
+    var pre=f.unit==='$'?'<span class="affix">$</span>':'';
+    var suf=f.unit==='%'?'<span class="affix">%</span>':'';
+    row.innerHTML='<div class="ctop"><label for="n-'+f.k+'">'+f.label+'</label><span class="numbox">'+pre+'<input id="n-'+f.k+'" type="number" inputmode="numeric" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+f.val+'">'+suf+'</span></div>'+
+      '<input id="r-'+f.k+'" class="crange" type="range" aria-label="'+f.label+' slider" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+f.val+'">'+
+      '<p class="chint">'+f.hint+'</p>';
+    host.appendChild(row);
+    var n=$('n-'+f.k),r=$('r-'+f.k);
+    r.addEventListener('input',function(){S[f.k]=+r.value;n.value=r.value;render();});
+    n.addEventListener('input',function(){var v=parseFloat(n.value);if(isNaN(v))return;S[f.k]=clamp(v,f);r.value=S[f.k];render();});
+    n.addEventListener('change',function(){var v=parseFloat(n.value);if(isNaN(v))v=S[f.k];v=clamp(v,f);S[f.k]=v;n.value=v;r.value=v;render();});
+  });
+  $('cinputs').addEventListener('submit',function(e){e.preventDefault();});
+  $('creset').addEventListener('click',function(){
+    FIELDS.forEach(function(f){S[f.k]=D[f.k];$('n-'+f.k).value=D[f.k];$('r-'+f.k).value=D[f.k];});
+    render();flash('Example numbers restored.');
+  });
+  render();
+})();
+</script>
+</body>
+</html>
