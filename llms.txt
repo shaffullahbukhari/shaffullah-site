@@ -1,0 +1,21 @@
+# Shaffullah Bukhari
+
+> Shaffullah Bukhari builds and runs AI systems for US immigration law firms: Impersonation Shield (finding and removing fake pages, ads, WhatsApp numbers and lookalike websites that impersonate a firm), a 24/7 multilingual AI phone line for after-hours intake, and AEO (Answer Engine Optimization) so AI assistants can find and quote a firm. Every service starts with a free report on the firm's own public information. Not a law firm; no legal advice.
+
+## Key pages
+
+- [Home](https://shaffullah.com/): the three services, a 60-second impersonation self-check, how Impersonation Shield works, ethics (ABA Model Rules 1.6 and 5.3, Formal Opinion 512) and FAQs.
+- [24/7 multilingual line](https://shaffullah.com/line/): how the AI line answers callers in Spanish, English, Portuguese, Arabic, French and Haitian Creole; demo video, live demo call and free test-run request.
+- [Learn](https://shaffullah.com/learn/): workshops, 1:1 mentoring and free field notes on AI voice agents, AEO and selling AI services to one niche.
+- [Privacy and email policy](https://shaffullah.com/privacy/): what the site and report tools collect and how consent and unsubscribing work.
+
+## Free tools
+
+- Impersonation Exposure Report (request at hello@shaffullah.com): lookalike domains registered in a firm's name, new sites in certificate logs, verification gaps, DMARC, sealed evidence and where to report.
+- AEO audit (request at hello@shaffullah.com): a 0–100 score for how well AI assistants can find and quote a page, with ready-to-paste fixes.
+
+## Contact
+
+- Email: hello@shaffullah.com
+- LinkedIn: https://www.linkedin.com/in/shaffullah-bukhari/
+- Book a call: https://calendly.com/bukharishaffullah/30min
