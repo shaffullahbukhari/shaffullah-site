@@ -10,7 +10,7 @@
 <meta property="og:site_name" content="Shaffullah Bukhari">
 <meta property="og:url" content="https://shaffullah.com/line/">
 <meta property="og:title" content="Every caller answered in their language, even at 9 PM">
-<meta property="og:description" content="Watch the 90-second demo, talk to the line yourself, then ask for a free test run for your firm.">
+<meta property="og:description" content="Watch the 3-minute demo, talk to the line yourself, then ask for a free test run for your firm.">
 <meta property="og:image" content="https://shaffullah.com/assets/img/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
@@ -69,13 +69,15 @@
   <div class="wrap nav-bar">
     <a class="logo" href="/">shaffullah<span>.</span><span class="logo-sub">24/7 multilingual line</span></a>
     <nav class="navlinks" aria-label="Main">
-      <a href="/#reports">Free reports</a>
-      <a href="/#services">Services</a>
+      <a href="/shield/">Impersonation Shield</a>
       <a href="/line/" aria-current="page">24/7 line</a>
+      <a href="/aeo/">AEO</a>
+      <a href="/#reports">Free reports</a>
       <a href="/#about">About</a>
     </nav>
     <div class="nav-ctas">
       <a class="btn btn-amber btn-sm" href="#test-run">Request a test run</a>
+      <details class="mnav"><summary aria-label="Open menu">Menu</summary><nav class="mnav-panel" aria-label="Menu"><a href="/shield/">Impersonation Shield</a><a href="/line/" aria-current="page">24/7 line</a><a href="/aeo/">AEO</a><a href="/#reports">Free reports</a><a href="/learn/">Learn from me</a><a href="/#about">About</a><a href="https://calendly.com/bukharishaffullah/30min">Book a call</a></nav></details>
     </div>
   </div>
   <div class="wrap hero hero-grid">
@@ -84,7 +86,7 @@
       <h1 class="h1">Every caller answered in their language, <span class="amber">even when your office is closed.</span></h1>
       <p class="lead">Many families call after work, in Spanish, Portuguese or Haitian Creole. If they reach voicemail at 9 PM, they may call the next firm on the list. The line answers for your firm, takes the case details, books the consultation and gets emergencies to a person.</p>
       <div class="btn-row">
-        <a class="btn btn-amber" href="#demo">Watch the 90-second demo</a>
+        <a class="btn btn-amber" href="#demo">Watch the 3-minute demo</a>
         <a class="btn btn-outline-dark" href="#try">Talk to it yourself</a>
       </div>
     </div>
@@ -106,11 +108,11 @@
   <section id="demo" class="wrap section">
     <div class="two" style="grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: 40px">
       <div class="video">
-        <iframe src="https://www.loom.com/embed/ceb4545b58cf4a27a87f70f1fd26960a" title="90-second walkthrough of the 24/7 multilingual line" loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.loom.com/embed/ceb4545b58cf4a27a87f70f1fd26960a" title="3-minute demo of the 24/7 multilingual line" allow="fullscreen; picture-in-picture"></iframe>
       </div>
       <div>
         <p class="eyebrow">See it first</p>
-        <h2 class="h2-sm" style="font-size: clamp(30px, 3.6vw, 40px)">Ninety seconds, start to finish.</h2>
+        <h2 class="h2-sm" style="font-size: clamp(30px, 3.6vw, 40px)">Three minutes, start to finish.</h2>
         <p class="muted" style="margin-top: 12px">A short walkthrough of how the line answers, what it asks, and what reaches your team afterwards. No sign-up needed to watch.</p>
       </div>
     </div>
@@ -186,7 +188,11 @@
         </ol>
         <p class="muted" style="margin-top: 24px">Prefer email? Write to <a href="mailto:hello@shaffullah.com?subject=Test%20run%20request">hello@shaffullah.com</a>, or <a href="https://calendly.com/bukharishaffullah/30min">book the session directly</a>.</p>
       </div>
-      <form class="form-card" data-inquiry="test_run" data-thanks="Thank you. I’ll email you within one business day to pick a time." action="mailto:hello@shaffullah.com" method="post" enctype="text/plain">
+      <form class="form-card" data-inquiry="test_run" data-thanks="Thank you. I’ll email you within one business day to pick a time." action="https://formsubmit.co/hello@shaffullah.com" method="post">
+        <input type="hidden" name="_subject" value="Test run request (24/7 line)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://shaffullah.com/thanks/">
         <input type="hidden" name="kind" value="test_run">
         <label>Your name<input type="text" name="name" autocomplete="name" maxlength="100"></label>
         <label>Firm name<input type="text" name="firm" autocomplete="organization" maxlength="120"></label>
@@ -205,8 +211,8 @@
         </fieldset>
         <label class="full">Anything I should know? <span style="font-weight: 400; color: var(--muted-2)">(optional)</span><textarea name="message" rows="3" maxlength="2000" placeholder="For example: most calls come in after 6 PM, many about detention"></textarea></label>
         <label class="full consent"><input type="checkbox" name="consent" value="1"><span>Yes, send me occasional emails about new scams targeting immigration firms and about my services. I can unsubscribe at any time. <span style="color: var(--muted-2)">(optional)</span></span></label>
-        <div class="hp" aria-hidden="true"><label>Fax<input type="text" name="fax" tabindex="-1" autocomplete="off"></label></div>
-        <p class="form-status" role="status" hidden></p>
+        <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-msg full" role="status" hidden></p>
         <button class="btn btn-amber full" type="submit">Request my test run</button>
         <p class="form-note">Free. No client information needed, and nothing is set up on your real phone line. <a href="/privacy/">Privacy</a></p>
       </form>
@@ -236,7 +242,7 @@
   <div class="site-foot">
     <div class="wrap foot-row">
       <span>© 2026 Shaffullah Bukhari · Not a law firm. Nothing here is legal advice.</span>
-      <span class="foot-links"><a href="/">Home</a><a data-link="exposure" href="/#reports">Exposure Report</a><a data-link="aeo" href="/#reports">AEO audit</a><a href="/#about">About</a><a href="https://www.linkedin.com/in/shaffullah-bukhari/">LinkedIn</a><a href="mailto:hello@shaffullah.com">Contact</a><a href="/privacy/">Privacy</a></span>
+      <span class="foot-links"><a href="/">Home</a><a href="/shield/">Impersonation Shield</a><a href="/aeo/">AEO</a><a href="/#reports">Free reports</a><a href="/#about">About</a><a href="https://www.linkedin.com/in/shaffullah-bukhari/">LinkedIn</a><a href="mailto:hello@shaffullah.com">Contact</a><a href="/privacy/">Privacy</a></span>
     </div>
     <p class="wrap byline">Written and maintained by <a href="/#about">Shaffullah Bukhari</a> · Last updated <time datetime="2026-11-21">21 November 2026</time></p>
   </div>

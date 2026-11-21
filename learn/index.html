@@ -127,7 +127,11 @@
 
   <section id="join" class="wrap" style="max-width: 820px; padding-top: 88px; padding-bottom: 96px">
     <h2 class="h2" style="font-size: clamp(30px, 3.8vw, 42px); text-align: center">Get the field notes and first dibs on workshops.</h2>
-    <form class="form-card" style="margin-top: 32px" data-inquiry="waitlist" data-thanks="Thank you. You’ll be added to the list." action="mailto:hello@shaffullah.com" method="post" enctype="text/plain">
+    <form class="form-card" style="margin-top: 32px" data-inquiry="waitlist" data-thanks="Thank you. You’ll be added to the list." action="https://formsubmit.co/hello@shaffullah.com" method="post">
+        <input type="hidden" name="_subject" value="Learn waitlist">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://shaffullah.com/thanks/">
       <input type="hidden" name="kind" value="waitlist">
       <label>Name<input type="text" name="name" autocomplete="name" maxlength="100"></label>
       <label>Email<input type="email" name="email" autocomplete="email" required maxlength="200"></label>
@@ -137,8 +141,8 @@
       <label>I'm a
         <select name="role"><option>Freelancer</option><option>Agency owner</option><option>Business owner</option><option>Student</option></select>
       </label>
-      <div class="hp" aria-hidden="true"><label>Fax<input type="text" name="fax" tabindex="-1" autocomplete="off"></label></div>
-      <p class="form-status" role="status" hidden></p>
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-msg full" role="status" hidden></p>
       <button class="btn btn-amber full" type="submit">Join the waitlist</button>
       <p class="form-note">By joining you agree to get the field notes and workshop news by email: one or two emails a month. Unsubscribe any time. <a href="/privacy/">Privacy</a></p>
     </form>

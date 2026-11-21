@@ -3,10 +3,10 @@
 (function () {
   'use strict';
 
-  // Where the report tools and the inquiry API live.
   var CONFIG = {
-    // false until the report server is running: report buttons and forms then
-    // open a ready-to-send email to hello@shaffullah.com instead.
+    // false until the report server is running. Report requests and other
+    // forms are then delivered to the inbox by FormSubmit, and the report is
+    // run and emailed by hand.
     toolsLive: false,
     email: 'hello@shaffullah.com',
     reports: 'https://reports.shaffullah.com',
@@ -20,9 +20,9 @@
     if (qs.get('reports')) { CONFIG.reports = qs.get('reports'); CONFIG.toolsLive = true; }
     if (qs.get('aeo')) CONFIG.aeo = qs.get('aeo');
   }
-  var mailto = function (subject, lines) {
-    return 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-  };
+  var FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + CONFIG.email;
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var CONSENT_TEXT = 'Yes, send me occasional emails about new scams targeting immigration firms and about my services. I can unsubscribe at any time.';
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
@@ -33,46 +33,93 @@
     return n;
   };
 
-  // Point every report link at the configured tools (useful for local testing).
+  // Deliver a form to the inbox (FormSubmit). Resolves true when accepted.
+  function deliver(payload) {
+    return fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.assign({ _template: 'table', _captcha: 'false' }, payload))
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && String(j.success) === 'true'; });
+    }).catch(function () { return false; });
+  }
+  function showMsg(node, kind, text, withMailLink) {
+    if (!node) return;
+    node.hidden = false;
+    node.className = 'form-msg ' + kind;
+    node.textContent = text;
+    if (withMailLink) {
+      node.appendChild(document.createTextNode(' '));
+      var a = el('a', null, CONFIG.email);
+      a.href = 'mailto:' + CONFIG.email;
+      node.appendChild(a);
+      node.appendChild(document.createTextNode('.'));
+    }
+  }
+
+  // Point report links at the live tools once they exist.
   if (CONFIG.toolsLive) {
     $$('[data-link=exposure]').forEach(function (a) { a.href = CONFIG.reports + '/exposure?src=site'; });
     $$('[data-link=aeo]').forEach(function (a) { a.href = CONFIG.aeo + '/'; });
   }
 
-  /* ── free report picker ─────────────────────────────────────────── */
-  var rf = $('#report-form');
-  if (rf) {
-    var blurbs = {
-      exposure: 'Lookalike websites registered in your name, new sites using it, how clients can verify you, and four free fixes.',
-      aeo: 'A 0–100 score for how well AI assistants can find and quote your site, with ready-to-paste fixes.'
+  /* ── free report request forms (home, /shield/, /aeo/) ──────────── */
+  var NAMES = { exposure: 'Impersonation Exposure Report', aeo: 'AEO audit' };
+  var BLURBS = {
+    exposure: 'Lookalike websites registered in your name, new sites using it, how clients can verify you, and four free fixes.',
+    aeo: 'A 0–100 score for how well AI assistants can find and quote your site, with ready-to-paste fixes.'
+  };
+  $$('[data-report-form]').forEach(function (form) {
+    var blurb = $('[data-blurb]', form);
+    var msg = $('.form-msg', form);
+    var button = $('button[type=submit]', form);
+    var kindOf = function () {
+      var r = $('input[name=report]:checked', form) || $('input[name=report][type=hidden]', form);
+      return (r && r.value) || 'exposure';
     };
-    var blurb = $('#report-blurb');
-    var sync = function () {
-      var kind = ($('input[name=report]:checked', rf) || {}).value || 'exposure';
-      if (blurb) blurb.textContent = blurbs[kind];
-    };
-    $$('input[name=report]', rf).forEach(function (r) { r.addEventListener('change', sync); });
+    var sync = function () { if (blurb) blurb.textContent = BLURBS[kindOf()]; };
+    $$('input[name=report]', form).forEach(function (r) { r.addEventListener('change', sync); });
     sync();
-    rf.addEventListener('submit', function (e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var site = $('#report-site').value.trim();
-      var kind = ($('input[name=report]:checked', rf) || {}).value || 'exposure';
-      if (!CONFIG.toolsLive) {
-        var name = kind === 'aeo' ? 'AEO audit' : 'Impersonation Exposure Report';
-        window.location.href = mailto('Free ' + name + ' request' + (site ? ': ' + site : ''), [
-          'Hi Shaffullah,', '', 'Please run a free ' + name + ' for my firm.', '',
-          'Website: ' + site, 'Firm name: ', 'My name: ', '', 'Thank you'
-        ]);
-        var st = $('#report-status');
-        if (st) { st.hidden = false; st.textContent = 'Your email app should open with the request ready. Just press Send. If nothing opens, email ' + CONFIG.email + '.'; }
+      var site = form.website.value.trim();
+      var email = form.email.value.trim();
+      var firm = form.firm ? form.firm.value.trim() : '';
+      var kind = kindOf();
+      if (!site) { showMsg(msg, 'err', 'Please enter your firm’s website.'); form.website.focus(); return; }
+      if (!EMAIL_RE.test(email)) { showMsg(msg, 'err', 'Please enter your email so the report can reach you.'); form.email.focus(); return; }
+      if (CONFIG.toolsLive) {
+        window.location.href = kind === 'aeo'
+          ? CONFIG.aeo + '/?url=' + encodeURIComponent(site)
+          : CONFIG.reports + '/exposure?src=site&site=' + encodeURIComponent(site) + (firm ? '&firm=' + encodeURIComponent(firm) : '');
         return;
       }
-      var target = kind === 'aeo'
-        ? CONFIG.aeo + '/?url=' + encodeURIComponent(site)
-        : CONFIG.reports + '/exposure?src=home&site=' + encodeURIComponent(site);
-      window.location.href = target;
+      var consent = form.consent && form.consent.checked;
+      if (form._honey && form._honey.value) { showMsg(msg, 'ok', 'Thank you.'); return; }
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      deliver({
+        _subject: 'Free ' + NAMES[kind] + ' request: ' + site,
+        _autoresponse: 'Thanks for requesting a free ' + NAMES[kind] + ' for ' + site + '. I’ll run it and email the report to this address, usually within one business day. If you have questions, just reply. — Shaffullah Bukhari, shaffullah.com',
+        Report: NAMES[kind],
+        Website: site,
+        'Firm name': firm || '—',
+        email: email,
+        'Occasional emails': consent ? 'YES, opted in (' + CONSENT_TEXT + ')' : 'No',
+        Page: location.pathname
+      }).then(function (ok) {
+        button.disabled = false;
+        button.textContent = 'Request my free report';
+        if (ok) {
+          form.reset();
+          sync();
+          showMsg(msg, 'ok', 'Got it. I’ll run your ' + NAMES[kind] + ' and email it to ' + email + ', usually within one business day. A confirmation email is on its way.');
+        } else {
+          showMsg(msg, 'err', 'That didn’t go through. Please email your website to', true);
+        }
+      });
     });
-  }
+  });
 
   /* ── 60-second self-check ───────────────────────────────────────── */
   var sc = $('#self-check');
@@ -80,9 +127,7 @@
     var answers = {};
     var rows = $$('.qrow', sc);
     var total = rows.length;
-    var out = {
-      inPlace: $('#sc-in-place'), meter: $('#sc-meter'), level: $('#sc-level'), body: $('#sc-body'), gaps: $('#sc-gaps')
-    };
+    var out = { inPlace: $('#sc-in-place'), meter: $('#sc-meter'), level: $('#sc-level'), body: $('#sc-body'), gaps: $('#sc-gaps') };
     var render = function () {
       var answered = Object.keys(answers).length;
       var yes = rows.filter(function (r) { return answers[r.dataset.id] === 'yes'; }).length;
@@ -126,13 +171,6 @@
 
   /* ── Shield steps (tabs) ────────────────────────────────────────── */
   var tabs = $$('#shield-steps [role=tab]');
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { select(i); });
-    t.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); select((i + 1) % tabs.length, true); }
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); select((i - 1 + tabs.length) % tabs.length, true); }
-    });
-  });
   function select(i, focus) {
     tabs.forEach(function (t, j) {
       var on = i === j;
@@ -143,6 +181,13 @@
     });
     if (focus) tabs[i].focus();
   }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(i); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); select((i + 1) % tabs.length, true); }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); select((i - 1 + tabs.length) % tabs.length, true); }
+    });
+  });
 
   /* ── "Is this really you?" demo ─────────────────────────────────── */
   var vf = $('#verify-form');
@@ -173,7 +218,7 @@
     check();
   }
 
-  /* ── 9 PM call ──────────────────────────────────────────────────── */
+  /* ── 9 PM call (shown where the page has it) ────────────────────── */
   var callBtn = $('#play-call');
   if (callBtn) {
     var CALL = [
@@ -257,14 +302,11 @@
     });
   }
 
-  /* ── inquiry forms (test run, waitlist) ─────────────────────────── */
+  /* ── other forms: test run (/line), Learn waitlist ──────────────── */
   $$('form[data-inquiry]').forEach(function (form) {
-    if (CONFIG.toolsLive) {
-      form.action = CONFIG.reports + '/api/inquiry';
-      form.removeAttribute('enctype');
-    }
-    var status = $('.form-status', form);
+    var msg = $('.form-msg', form) || $('.form-status', form);
     var button = $('button[type=submit]', form);
+    var label = button.textContent;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var data = new FormData(form);
@@ -272,48 +314,43 @@
       data.forEach(function (v, k) {
         if (k === 'languages') (body.languages = body.languages || []).push(v);
         else if (k === 'consent') body.consent = true;
-        else body[k] = String(v);
+        else if (k.charAt(0) !== '_') body[k] = String(v);
       });
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email || '')) {
-        show('err', 'Please enter a valid email address.');
-        return;
-      }
-      if (!CONFIG.toolsLive) {
-        var subject = body.kind === 'waitlist'
-          ? 'Learn waitlist: ' + (body.name || body.email)
-          : 'Test run request: ' + (body.firm || body.name || body.email);
-        var lines = ['Hi Shaffullah,', '', body.kind === 'waitlist' ? 'Please add me to the Learn waitlist and field notes.' : 'I’d like a free test run of the 24/7 multilingual line.', ''];
-        if (body.name) lines.push('Name: ' + body.name);
-        if (body.firm) lines.push('Firm: ' + body.firm);
-        lines.push('Email: ' + body.email);
-        if (body.languages) lines.push('Languages our callers speak: ' + body.languages.join(', '));
-        if (body.interest) lines.push('I most want to learn: ' + body.interest);
-        if (body.role) lines.push('I’m a: ' + body.role);
-        if (body.message) lines.push('', body.message);
-        if (body.kind !== 'waitlist') lines.push('', 'Occasional emails about scams and services: ' + (body.consent ? 'yes please' : 'no thanks'));
-        window.location.href = mailto(subject, lines);
-        show('ok', 'Your email app should open with everything filled in. Just press Send. If nothing opens, email ' + CONFIG.email + '.');
-        return;
-      }
+      if (!EMAIL_RE.test(body.email || '')) { showMsg(msg, 'err', 'Please enter a valid email address.'); return; }
+      if (data.get('_honey')) { showMsg(msg, 'ok', form.dataset.thanks || 'Thank you.'); return; }
       button.disabled = true;
-      show('', '');
-      fetch(form.action, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
-        .then(function (res) {
-          if (!res.ok || !res.j.ok) throw new Error(res.j.error || 'Something went wrong.');
-          form.reset();
-          show('ok', form.dataset.thanks || 'Thank you. Check your inbox for a confirmation.');
-        })
-        .catch(function (err) {
-          show('err', (err && err.message && err.message !== 'Failed to fetch') ? err.message : 'Couldn’t send right now. Please email hello@shaffullah.com instead.');
-        })
-        .then(function () { button.disabled = false; });
+      button.textContent = 'Sending…';
+      var done = function (ok) {
+        button.disabled = false;
+        button.textContent = label;
+        if (ok) { form.reset(); showMsg(msg, 'ok', form.dataset.thanks || 'Thank you. I’ll be in touch soon.'); }
+        else showMsg(msg, 'err', 'That didn’t go through. Please email', true);
+      };
+      if (CONFIG.toolsLive) {
+        fetch(CONFIG.reports + '/api/inquiry', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.ok; }); })
+          .catch(function () { return false; })
+          .then(done);
+        return;
+      }
+      var waitlist = body.kind === 'waitlist';
+      var payload = {
+        _subject: waitlist ? 'Learn waitlist: ' + (body.name || body.email) : 'Test run request: ' + (body.firm || body.name || body.email),
+        _autoresponse: waitlist
+          ? 'Thanks for joining the waitlist. You’ll get the field notes and hear about workshop dates and fees before anyone else. Reply “unsubscribe” any time. — Shaffullah Bukhari'
+          : 'Thanks for asking for a test run of the 24/7 multilingual line. I’ll set up a test line that answers with your firm’s name and email you within one business day to pick a time. — Shaffullah Bukhari',
+        Request: waitlist ? 'Learn waitlist' : 'Test run of the 24/7 line',
+        Name: body.name || '—',
+        email: body.email
+      };
+      if (body.firm) payload.Firm = body.firm;
+      if (body.languages) payload['Languages callers speak'] = body.languages.join(', ');
+      if (body.interest) payload['Wants to learn'] = body.interest;
+      if (body.role) payload.Role = body.role;
+      if (body.message) payload.Message = body.message;
+      payload['Occasional emails'] = waitlist || body.consent ? 'YES, opted in' : 'No';
+      payload.Page = body.page;
+      deliver(payload).then(done);
     });
-    function show(kind, msg) {
-      if (!status) return;
-      status.className = 'form-status' + (kind ? ' ' + kind : '');
-      status.textContent = msg;
-      status.hidden = !msg;
-    }
   });
 })();
